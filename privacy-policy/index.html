@@ -208,7 +208,7 @@
 
     <header>
         <span class="heart">♥</span>
-        <h1>Super Heart Attack</h1>
+        <h1><span class="dynamic-game-name">Super Heart Attack</span></h1>
         <p>by CariocaRelm Studio</p>
     </header>
 
@@ -225,7 +225,7 @@
 
             <h2>Privacy Policy & Terms of Use</h2>
 
-            <p>Welcome to <strong>Super Heart Attack</strong>, developed and published by <strong>CariocaRelm
+            <p>Welcome to <strong class="dynamic-game-name">Super Heart Attack</strong>, developed and published by <strong>CariocaRelm
                     Studio</strong>. By downloading or playing this game, you agree to the terms described in this
                 document. Please read it carefully.</p>
 
@@ -347,7 +347,7 @@
 
             <h2>Política de Privacidade & Termos de Uso</h2>
 
-            <p>Bem-vindo ao <strong>Super Heart Attack</strong>, desenvolvido e publicado pelo <strong>CariocaRelm
+            <p>Bem-vindo ao <strong class="dynamic-game-name">Super Heart Attack</strong>, desenvolvido e publicado pelo <strong>CariocaRelm
                     Studio</strong>. Ao baixar ou jogar este jogo, você concorda com os termos descritos neste
                 documento. Leia com atenção.</p>
 
@@ -467,7 +467,7 @@
     </div>
 
     <footer>
-        © 2025 CariocaRelm Studio. Super Heart Attack.
+        © 2025 CariocaRelm Studio. <span class="dynamic-game-name">Super Heart Attack</span>.
     </footer>
 
     <script>
@@ -475,8 +475,29 @@
             document.querySelectorAll('.lang-section').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.lang-toggle button').forEach(el => el.classList.remove('active'));
             document.getElementById('lang-' + lang).classList.add('active');
-            event.target.classList.add('active');
+            
+            // Highlight the correct button robustly
+            const btnEn = document.querySelector('button[onclick="setLang(\'en\')"]');
+            const btnPt = document.querySelector('button[onclick="setLang(\'pt\')"]');
+            if (lang === 'en' && btnEn) btnEn.classList.add('active');
+            if (lang === 'pt' && btnPt) btnPt.classList.add('active');
         }
+
+        // Handle dynamic game name from URL parameter (?game=Your+Game+Name)
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const gameName = urlParams.get('game');
+            
+            if (gameName) {
+                // Safely update all elements with the class (using textContent to prevent XSS)
+                document.querySelectorAll('.dynamic-game-name').forEach(el => {
+                    el.textContent = gameName;
+                });
+                
+                // Update browser tab title
+                document.title = "Privacy Policy & Terms of Use — " + gameName;
+            }
+        });
     </script>
 
 </body>
